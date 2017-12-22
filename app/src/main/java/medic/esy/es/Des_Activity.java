@@ -12,7 +12,7 @@ import android.widget.TextView;
 public class Des_Activity extends AppCompatActivity {
 
     Button cipher_button;
-    EditText des_messageq;
+    EditText des_messageq,key_des;
     TextView txt_plain,txt_cipher;
 
         //////Initalizing Static Data////////////////////
@@ -90,21 +90,46 @@ public class Des_Activity extends AppCompatActivity {
         txt_plain = (TextView) findViewById(R.id.plain_des);
         txt_cipher = (TextView) findViewById(R.id.dec_cipher);
         des_messageq = (EditText) findViewById(R.id.des_message);
+        key_des=(EditText) findViewById(R.id.key_des);
         //You Can letters or bits zero or one I handle all data
 
            // KEY
-        String key = "0001001100110100010101110111100110011011101111001101111111110001";
-           //ITS OUT DATA
-        String oo = "khaledkh";
-           //CONVERTING IT TO BITS (0) OR (ONE)
-        String data = srt2bit(oo).toString();
 
-       final String encrpt =Encription(data, key);
-       final String decrpt =Decription(encrpt,key);
 
         cipher_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                //Getting Des
+                String k  = key_des.getText().toString().toLowerCase();
+                String key = srt2bit(k).toString();
+//                String key = "0001001100110100010101110111100110011011101111001101111111110001";
+                //ITS OUT DATA
+                String palin=des_messageq.getText().toString().toLowerCase();
+                int count=8;
+                String eee="";
+                String ddd="";
+                String encrpt="";
+                String decrpt="";
+                for(int i=0;i<Math.ceil(palin.length()/8);i++){
+                    palin=palin.substring(0,count);
+                    String oo = palin;
+                    String data = srt2bit(oo).toString();
+                     encrpt =Encription(data, key);
+                     decrpt =Decription(encrpt,key);
+                    eee.concat(encrpt);
+                    ddd.concat(decrpt);
+                    count=count+8;
+                }
+//
+//                String oo = palin;
+//                //CONVERTING IT TO BITS (0) OR (ONE)
+//                String data = srt2bit(oo).toString();
+
+                /////////////////////////////////////
+
+//                final String encrpt =Encription(data, key);
+//                final String decrpt =Decription(encrpt,key);
                 txt_cipher.setText(encrpt);
                 txt_plain.setText(decrpt);
             }
